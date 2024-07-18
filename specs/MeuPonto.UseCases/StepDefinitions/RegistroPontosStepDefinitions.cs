@@ -43,7 +43,7 @@ public class RegistroPontosStepDefinitions
         ponto.DataHora = new DateTime(datetime.Year, datetime.Month, datetime.Day, datetime.Hour, datetime.Minute, 0);
         ponto.MomentoId = MomentoEnum.Entrada;
 
-        _registroPontos.Inicia(ponto);
+        _registroPontos.Contextualizar(ponto);
     }
 
     [When(@"o trabalhador solicitar um registro de ponto")]
@@ -51,17 +51,17 @@ public class RegistroPontosStepDefinitions
     {
         var ponto = _registroPontosInterface.SolicitarRegistroPonto();
 
-        _registroPontos.Inicia(ponto);
+        _registroPontos.Contextualizar(ponto);
     }
 
     [When(@"o trabalhador registrar o ponto como:")]
-    public void WhenOTrabalhadorRegistrarOPontoComo(Table table)
+    public void WhenOTrabalhadorRegistrarOPontoComo(Table especificacao)
     {
-        _registroPontos.Especificacao = table;
+        _registroPontos.Especificar(especificacao);
 
         var ponto = _registroPontos.Ponto;
 
-        var data = table.CreateInstance(() => new RegistroPontoData
+        var data = especificacao.CreateInstance(() => new RegistroPontoData
         {
             DataHora = ponto.DataHora,
             Contrato = ponto.Contrato?.Nome,
@@ -70,7 +70,7 @@ public class RegistroPontosStepDefinitions
             Estimado = ponto.Estimado
         });
 
-        var contrato = _db.Contratos.First(x => x.Nome == data.Contrato);
+        var contrato = _db.Contratos.FirstOrDefault(x => x.Nome == data.Contrato);
 
         contrato.QualificaPonto(ponto);
 
@@ -85,18 +85,19 @@ public class RegistroPontosStepDefinitions
             .Include(x => x.Contrato)
             .FirstOrDefault(x => x.DataHora == ponto.DataHora);
 
-        _registroPontos.Define(pontoRegistrado);
+        _registroPontos.Contextualizar(pontoRegistrado);
     }
 
     [When(@"o trabalhador tentar registrar o ponto como:")]
-    public void WhenOTrabalhadorTentarRegistrarOPontoComo(Table table)
+    public void WhenOTrabalhadorTentarRegistrarOPontoComo(Table especificacao)
     {
-        _registroPontos.Especificacao = table;
+        _registroPontos.Especificar(especificacao);
 
         var ponto = _registroPontos.Ponto;
 
-        var data = table.CreateInstance(() => new RegistroPontoData
+        var data = especificacao.CreateInstance(() => new RegistroPontoData
         {
+            DataHora = ponto.DataHora,
             Contrato = ponto.Contrato?.Nome,
             MomentoId = ponto.MomentoId,
             PausaId = ponto.PausaId,
@@ -114,6 +115,7 @@ public class RegistroPontosStepDefinitions
             contrato.QualificaPonto(ponto);
         }
 
+        ponto.DataHora = data.DataHora;
         ponto.MomentoId = data.MomentoId;
         ponto.PausaId = data.PausaId;
         ponto.Estimado = data.Estimado;
@@ -124,7 +126,7 @@ public class RegistroPontosStepDefinitions
         }
         catch (Exception ex)
         {
-            _registroPontos.Erro = ex.Message;
+            _registroPontos.CapturarErro(ex.Message);
         }
     }
 
@@ -140,12 +142,6 @@ public class RegistroPontosStepDefinitions
         ponto.Observacao = observacao;
 
         _registroPontosInterface.RegistrarPonto(ponto);
-
-        var pontoRegistrado = _db.Pontos
-            .Include(x => x.Contrato)
-            .FirstOrDefault(x => x.DataHora == ponto.DataHora);
-
-        _registroPontos.Define(pontoRegistrado);
     }
 
     [Given(@"que é o momento de '([^']*)' do expediente")]
@@ -170,12 +166,6 @@ public class RegistroPontosStepDefinitions
         _registroPontos.Ponto.PausaId = PausaEnum.Almoco;
     }
 
-    [Given(@"que a data/hora do relógio é '([^']*)'")]
-    public void GivenQueADataHoraDoRelogioE(DateTime dataHora)
-    {
-        _registroPontos.DataHora = dataHora;
-    }
-
     [Given(@"que o trabalhador registrou a entrada no expediente às '([^']*)'")]
     public async Task GivenQueOTrabalhadorRegistrouAEntradaNoExpedienteAs(DateTime entrada)
     {
@@ -190,9 +180,11 @@ public class RegistroPontosStepDefinitions
         contrato.QualificaPonto(pontoEntrada);
 
         pontoEntrada.DataHora = entrada;
+
         pontoEntrada.MomentoId = MomentoEnum.Entrada;
 
         _db.Pontos.Add(pontoEntrada);
+
         await _db.SaveChangesAsync();
     }
 
@@ -210,18 +202,42 @@ public class RegistroPontosStepDefinitions
         contrato.QualificaPonto(pontoSaida);
 
         pontoSaida.DataHora = saida;
+
         pontoSaida.MomentoId = MomentoEnum.Saida;
 
         _db.Pontos.Add(pontoSaida);
+
+        await _db.SaveChangesAsync();
+    }
+
+    [Given(@"que existe um ponto qualificado com o contrato '([^']*)'")]
+    public async Task GivenQueExisteUmPontoQualificadoComOContrato(string nomeContrato)
+    {
+        var userId = Guid.Parse("d2fc8313-9bdc-455c-bf29-ccf709a2a692").ToString();
+
+        var transaction = new TransactionContext(userId);
+
+        var contrato = _db.Contratos.FirstOrDefault(x => x.Nome == nomeContrato);
+
+        var pontoEntrada = RegistroPontosFacade.CriaPonto(transaction);
+
+        contrato.QualificaPonto(pontoEntrada);
+
+        pontoEntrada.DataHora = DateTime.Now;
+
+        pontoEntrada.MomentoId = MomentoEnum.Entrada;
+
+        _db.Pontos.Add(pontoEntrada);
+
         await _db.SaveChangesAsync();
     }
 
     [When(@"o trabalhador iniciar um registro de ponto")]
     public void WhenOTrabalhadorIniciarUmRegistroDePonto()
     {
-        var ponto = _registroPontosInterface.SolicitarMarcacaoPonto();
+        var ponto = _registroPontosInterface.SolicitarRegistroPonto();
 
-        _registroPontos.Inicia(ponto);
+        _registroPontos.Contextualizar(ponto);
     }
 
     [Then(@"o sistema deverá apresentar um ponto novo")]
@@ -243,13 +259,23 @@ public class RegistroPontosStepDefinitions
             .Include(x => x.Contrato)
             .FirstOrDefault(x => x.DataHora == _registroPontos.Ponto.DataHora);
 
-        _registroPontos.Define(pontoRegistrado);
+        _registroPontos.Contextualizar(pontoRegistrado);
     }
 
     [Then(@"o sistema deverá registrar o ponto como esperado")]
     public void ThenOSistemaDeveraRegistrarOPontoComoEsperado()
     {
         _registroPontos.Especificacao.CompareToSet(_db.Pontos);
+    }
+
+    [Then(@"o ponto deverá ser registrado")]
+    public async Task ThenOPontoDeveraSerRegistrado()
+    {
+        var pontoRegistrado = _db.Pontos
+            .Include(x => x.Contrato)
+            .FirstOrDefault(x => x.DataHora == _registroPontos.Ponto.DataHora);
+
+        _registroPontos.Contextualizar(pontoRegistrado);
     }
 
     [Then(@"o ponto deverá ser registrado como esperado")]
@@ -265,17 +291,17 @@ public class RegistroPontosStepDefinitions
     }
 
     [Then(@"o ponto deverá ser qualificado pelo contrato '([^']*)'")]
-    public void ThenOPontoDeveraSerQualificadoPeloContrato(string nome)
+    public void ThenOPontoDeveraSerQualificadoPeloContrato(string nomeContrato)
     {
         _registroPontos.Ponto.Contrato.Should().NotBeNull();
 
-        _registroPontos.Ponto.Contrato.Nome.Should().Be(nome);
+        _registroPontos.Ponto.Contrato.Nome.Should().Be(nomeContrato);
     }
 
     [Then(@"a data do ponto deverá ser '([^']*)'")]
-    public void ThenADataDoPontoDeveraSer(DateTime data)
+    public void ThenADataDoPontoDeveraSer(DateTime dataHora)
     {
-        //TODO: _registroPontos.PontoRegistrado.Data.Should().Be(data);
+        //TODO: _registroPontos.Ponto.DataHora.Should().Be(dataHora);
     }
 
     [Then(@"a pausa do ponto deverá ser '([^']*)'")]
