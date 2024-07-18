@@ -1,4 +1,4 @@
-namespace MeuPonto.Windows
+namespace MeuPonto
 {
     internal static class Program
     {

@@ -1,4 +1,4 @@
-﻿namespace MeuPonto.Windows
+﻿namespace MeuPonto
 {
     partial class Form1
     {

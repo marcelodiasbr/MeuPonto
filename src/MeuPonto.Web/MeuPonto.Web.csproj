@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-MeuPonto.Web-96d53826-3201-45a9-ba5c-a9c3f58a4952</UserSecretsId>
+    <RootNamespace>MeuPonto</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

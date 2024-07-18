@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
-namespace MeuPonto.Web
+namespace MeuPonto
 {
     public class Program
     {

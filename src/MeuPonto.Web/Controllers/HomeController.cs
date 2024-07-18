@@ -1,9 +1,9 @@
-using MeuPonto.Web.Models;
+using MeuPonto.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace MeuPonto.Web.Controllers
+namespace MeuPonto.Controllers
 {
     [Authorize]
     public class HomeController : Controller

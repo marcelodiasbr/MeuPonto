@@ -1,4 +1,4 @@
-namespace MeuPonto.Web.Models
+namespace MeuPonto.Models
 {
     public class ErrorViewModel
     {

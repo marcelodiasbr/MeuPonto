@@ -1,4 +1,4 @@
-namespace MeuPonto.UseCases.StepDefinitions
+namespace MeuPonto.StepDefinitions
 {
     [Binding]
     public sealed class CalculatorStepDefinitions
