@@ -2,7 +2,6 @@ using MeuPonto.Data;
 using MeuPonto.Drivers;
 using MeuPonto.Support;
 using Microsoft.EntityFrameworkCore;
-using TechTalk.SpecFlow.Assist;
 using MeuPonto.Features.RegistroPontos;
 using MeuPonto.Models.Pontos;
 

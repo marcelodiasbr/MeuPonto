@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:MeuPonto.Pages.Trabalhadores"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:system="clr-namespace:System;assembly=System.Xaml.Extensions"
-    xmlns:trabalhadores="clr-namespace:MeuPonto.Pages.Trabalhadores;assembly=MeuPonto.DocumentModel"
+    xmlns:trabalhadores="clr-namespace:MeuPonto.Pages.Trabalhadores;assembly=MeuPonto.DomainModel"
     Title="Cadastro de Trabalhadores"
     Width="1200"
     Height="600"

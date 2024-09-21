@@ -2,7 +2,6 @@ using MeuPonto.Data;
 using MeuPonto.Drivers;
 using MeuPonto.Support;
 using System.Transactions;
-using TechTalk.SpecFlow.Assist;
 using MeuPonto.Features.CadastroEmpregadores;
 using Microsoft.EntityFrameworkCore;
 using MeuPonto.Models.Contratos;

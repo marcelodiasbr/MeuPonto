@@ -1,74 +1,108 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-MeuPonto-a092c9dd-ee53-439b-a59c-b03af725fbcc</UserSecretsId>
-    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <UserSecretsId>aspnet-MeuPonto.Web-44c221e4-a9fc-4835-89cd-0f23baaac521</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
     <RootNamespace>MeuPonto</RootNamespace>
-    <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
-    <Configurations>Debug;Release;Debug_Cosmos;Release_Cosmos;Debug_Sqlite;Release_Sqlite;Debug_SqlServer;Release_SqlServer</Configurations>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants);INFRA_SQLITE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Sqlite|AnyCPU'">
-    <DefineConstants>$(DefineConstants);INFRA_SQLITE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SqlServer|AnyCPU'">
-    <DefineConstants>$(DefineConstants);INFRA_SQLSERVER</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Cosmos|AnyCPU'">
-    <DefineConstants>$(DefineConstants);INFRA_COSMOS</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>$(DefineConstants);INFRA_SQLITE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Sqlite|AnyCPU'">
-    <DefineConstants>$(DefineConstants);INFRA_SQLITE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SqlServer|AnyCPU'">
-    <DefineConstants>$(DefineConstants);INFRA_SQLSERVER</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Cosmos|AnyCPU'">
-    <DefineConstants>$(DefineConstants);INFRA_COSMOS</DefineConstants>
-  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.9" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.9">
+    <Compile Remove="Controllers\**" />
+    <Compile Remove="Models\**" />
+    <Compile Remove="Views\**" />
+    <Content Remove="Controllers\**" />
+    <Content Remove="Models\**" />
+    <Content Remove="Views\**" />
+    <EmbeddedResource Remove="Controllers\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Views\**" />
+    <None Remove="Controllers\**" />
+    <None Remove="Models\**" />
+    <None Remove="Views\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Configuracoes.cshtml" />
+    <None Include="Pages\Contratos\Criar.cshtml" />
+    <None Include="Pages\Contratos\Detalhar.cshtml" />
+    <None Include="Pages\Contratos\Editar.cshtml" />
+    <None Include="Pages\Contratos\Empregadores\Criar.cshtml" />
+    <None Include="Pages\Contratos\Empregadores\Detalhar.cshtml" />
+    <None Include="Pages\Contratos\Empregadores\Editar.cshtml" />
+    <None Include="Pages\Contratos\Empregadores\Excluir.cshtml" />
+    <None Include="Pages\Contratos\Empregadores\Index.cshtml" />
+    <None Include="Pages\Contratos\Excluir.cshtml" />
+    <None Include="Pages\Contratos\Index.cshtml" />
+    <None Include="Pages\Contratos\_Features.cshtml" />
+    <None Include="Pages\Error.cshtml" />
+    <None Include="Pages\Folhas\Abrir.cshtml" />
+    <None Include="Pages\Folhas\Criar.cshtml" />
+    <None Include="Pages\Folhas\Detalhar.cshtml" />
+    <None Include="Pages\Folhas\Editar.cshtml" />
+    <None Include="Pages\Folhas\Excluir.cshtml" />
+    <None Include="Pages\Folhas\Fechar.cshtml" />
+    <None Include="Pages\Folhas\Index.cshtml" />
+    <None Include="Pages\Folhas\Relatorio.cshtml" />
+    <None Include="Pages\Folhas\_ViewImports.cshtml" />
+    <None Include="Pages\Index.cshtml" />
+    <None Include="Pages\Pontos\Comprovantes\Criar.cshtml" />
+    <None Include="Pages\Pontos\Comprovantes\Detalhar.cshtml" />
+    <None Include="Pages\Pontos\Comprovantes\Editar.cshtml" />
+    <None Include="Pages\Pontos\Comprovantes\Excluir.cshtml" />
+    <None Include="Pages\Pontos\Comprovantes\Guardar.cshtml" />
+    <None Include="Pages\Pontos\Comprovantes\Index.cshtml" />
+    <None Include="Pages\Pontos\Comprovantes\_Features.cshtml" />
+    <None Include="Pages\Pontos\Comprovantes\_ViewImports.cshtml" />
+    <None Include="Pages\Pontos\Criar.cshtml" />
+    <None Include="Pages\Pontos\Detalhar.cshtml" />
+    <None Include="Pages\Pontos\Editar.cshtml" />
+    <None Include="Pages\Pontos\Excluir.cshtml" />
+    <None Include="Pages\Pontos\Index.cshtml" />
+    <None Include="Pages\Pontos\Marcar.cshtml" />
+    <None Include="Pages\Pontos\_Features.cshtml" />
+    <None Include="Pages\Pontos\_ViewImports.cshtml" />
+    <None Include="Pages\Privacidade.cshtml" />
+    <None Include="Pages\Shared\_FormModalLayout.cshtml" />
+    <None Include="Pages\Shared\_Layout.cshtml" />
+    <None Include="Pages\Shared\_LoginPartial.cshtml" />
+    <None Include="Pages\Shared\_Pagination.cshtml" />
+    <None Include="Pages\Shared\_StatusMessage.cshtml" />
+    <None Include="Pages\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Pages\Sobre.cshtml" />
+    <None Include="Pages\Termos.cshtml" />
+    <None Include="Pages\Trabalhadores\Detalhar.cshtml" />
+    <None Include="Pages\Trabalhadores\Editar.cshtml" />
+    <None Include="Pages\Trabalhadores\Index.cshtml" />
+    <None Include="Pages\_Features.cshtml" />
+    <None Include="Pages\_ViewImports.cshtml" />
+    <None Include="Pages\_ViewStart.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.8" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Identity.Web" Version="2.13.2" />
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.13.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.9" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
+    <ProjectReference Include="..\MeuPonto.DomainModel\MeuPonto.DomainModel.csproj" />
+    <ProjectReference Include="..\MeuPonto.EntityFrameworkCore.Sqlite\MeuPonto.EntityFrameworkCore.Sqlite.csproj" />
+    <ProjectReference Include="..\MeuPonto.EntityFrameworkCore.SqlServer\MeuPonto.EntityFrameworkCore.SqlServer.csproj" />
+    <ProjectReference Include="..\MeuPonto.EntityFrameworkCore\MeuPonto.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\System.Extensions\System.Extensions.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <EditorConfigFiles Remove="C:\github\MeuPonto\.net\src\MeuPonto.Web\.editorconfig" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MeuPonto.EntityFrameworkCore.Sqlite\MeuPonto.EntityFrameworkCore.Sqlite.csproj" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
-    <ProjectReference Include="..\MeuPonto.EntityFrameworkCore.Sqlite\MeuPonto.EntityFrameworkCore.Sqlite.csproj" Condition="'$(Configuration)|$(Platform)'=='Debug_Sqlite|AnyCPU'" />
-    <ProjectReference Include="..\MeuPonto.EntityFrameworkCore.SqlServer\MeuPonto.EntityFrameworkCore.SqlServer.csproj" Condition="'$(Configuration)|$(Platform)'=='Debug_SqlServer|AnyCPU'" />
-    <ProjectReference Include="..\MeuPonto.EntityFrameworkCore.Cosmos\MeuPonto.EntityFrameworkCore.Cosmos.csproj" Condition="'$(Configuration)|$(Platform)'=='Debug_Cosmos|AnyCPU'" />
-    <ProjectReference Include="..\MeuPonto.EntityFrameworkCore.Sqlite\MeuPonto.EntityFrameworkCore.Sqlite.csproj" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
-    <ProjectReference Include="..\MeuPonto.EntityFrameworkCore.Sqlite\MeuPonto.EntityFrameworkCore.Sqlite.csproj" Condition="'$(Configuration)|$(Platform)'=='Release_Sqlite|AnyCPU'" />
-    <ProjectReference Include="..\MeuPonto.EntityFrameworkCore.SqlServer\MeuPonto.EntityFrameworkCore.SqlServer.csproj" Condition="'$(Configuration)|$(Platform)'=='Release_SqlServer|AnyCPU'" />
-    <ProjectReference Include="..\MeuPonto.EntityFrameworkCore.Cosmos\MeuPonto.EntityFrameworkCore.Cosmos.csproj" Condition="'$(Configuration)|$(Platform)'=='Release_Cosmos|AnyCPU'" />
-    <ProjectReference Include="..\MeuPonto.Web_App\MeuPonto.Web_App.csproj">
-      <Aliases>
-      </Aliases>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="Pages\Shared\_FormModalLayout.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
+
 </Project>

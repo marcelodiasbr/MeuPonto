@@ -33,7 +33,7 @@ public partial class App : Application
 
         var builder = new ConfigurationBuilder()
             .SetBasePath(basePath)
-            .AddUserSecrets(Assembly.GetExecutingAssembly())
+            //.AddUserSecrets(Assembly.GetExecutingAssembly())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
 
         Configuration = builder.Build();
@@ -46,7 +46,7 @@ public partial class App : Application
 
         ServiceProvider = serviceCollection.BuildServiceProvider(validateScopes: true);
 
-        await DbModule.EnsureDatabaseExistsAsync(ServiceProvider);
+        await ServiceProvider.EnsureDatabaseExistsAsync();
 
         var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
 

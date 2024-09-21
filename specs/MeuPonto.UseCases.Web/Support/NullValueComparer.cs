@@ -1,4 +1,4 @@
-﻿using TechTalk.SpecFlow.Assist;
+﻿using Reqnroll.Assist;
 
 namespace MeuPonto.Support;
 

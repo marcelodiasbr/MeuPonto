@@ -2,7 +2,7 @@
     x:Class="MeuPonto.Pages.Contratos.GestaoContratosWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:contratos="clr-namespace:MeuPonto.Pages.Contratos;assembly=MeuPonto.DocumentModel"
+    xmlns:contratos="clr-namespace:MeuPonto.Pages.Contratos;assembly=MeuPonto.DomainModel"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MeuPonto.Pages.Contratos"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -70,7 +70,6 @@
                 EnableRowVirtualization="False"
                 ItemsSource="{Binding}"
                 RowDetailsVisibilityMode="VisibleWhenSelected"
-                SelectionUnit="Cell"
                 VirtualizingPanel.IsVirtualizing="False">
                 <!--<DataGrid.RowValidationRules>
                     <local:ContratoValidationRule ValidationStep="UpdatedValue"/>

@@ -1,13 +1,11 @@
-﻿using BoDi;
-using MeuPonto.Data;
+﻿using MeuPonto.Data;
 using Microsoft.AspNetCore.Mvc.Testing;
-#if !INFRA_COSMOS
 using Microsoft.EntityFrameworkCore;
-#endif
 using System.Net.Http.Headers;
-using TechTalk.SpecFlow.Assist.ValueRetrievers;
-using TechTalk.SpecFlow.Assist;
-using TechTalk.SpecFlow.Infrastructure;
+using Reqnroll.BoDi;
+using Reqnroll;
+using Reqnroll.Assist.ValueRetrievers;
+using Reqnroll.Assist;
 
 namespace MeuPonto.Support;
 
@@ -16,7 +14,7 @@ public class WebHook //: IClassFixture<MeuPontoWebFactory<Program>>
 {
     private readonly IObjectContainer _objectContainer;
 
-    private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
+    private readonly IReqnrollOutputHelper _reqnollOutputHelper;
 
     private readonly WebApplicationFactory<Program> _webFactory;
 
@@ -30,16 +28,16 @@ public class WebHook //: IClassFixture<MeuPontoWebFactory<Program>>
 
     public WebHook(
         IObjectContainer objectContainer,
-        ISpecFlowOutputHelper specFlowOutputHelper,
+        IReqnrollOutputHelper reqnollOutputHelper,
         MeuPontoWebFactory<Program> webFactory)
     {
         _objectContainer = objectContainer;
 
-        _specFlowOutputHelper = specFlowOutputHelper;
+        _reqnollOutputHelper = reqnollOutputHelper;
 
         _counter++;
 
-        specFlowOutputHelper.WriteLine($"WebHook --> {_counter}");
+        reqnollOutputHelper.WriteLine($"WebHook --> {_counter}");
 
         _webFactory = webFactory;
 
@@ -69,25 +67,19 @@ public class WebHook //: IClassFixture<MeuPontoWebFactory<Program>>
 
         objectContainer.RegisterInstanceAs(dateTimeSnapshot);
 
-        specFlowOutputHelper.WriteLine($"RegisterInstanceAs --> dateTimeSnapshot");
+        reqnollOutputHelper.WriteLine($"RegisterInstanceAs --> dateTimeSnapshot");
     }
 
     [BeforeScenario(Order = 0)]
     public void InitializeWeb(FeatureContext feature, ScenarioContext scenario)
     {
-        _specFlowOutputHelper.WriteLine("EnsureDeleted");
+        _reqnollOutputHelper.WriteLine("EnsureDeleted");
 
         _db.Database.EnsureDeleted();
 
-#if INFRA_COSMOS
-        _specFlowOutputHelper.WriteLine("EnsureCreated");
-
-        _db.Database.EnsureCreated();
-#else
-        _specFlowOutputHelper.WriteLine("Migrate");
+        _reqnollOutputHelper.WriteLine("Migrate");
 
         _db.Database.Migrate();
-#endif
 
         //
 
@@ -115,19 +107,19 @@ public class WebHook //: IClassFixture<MeuPontoWebFactory<Program>>
         _db.Dispose();
     }
 
-    [BeforeTestRun]
-    public static void BeforeTestRunInjection(ITestRunnerManager testRunnerManager, ITestRunner testRunner)
-    {
-        //All parameters are resolved from the test thread container automatically.
-        //Since the global container is the base container of the test thread container, globally registered services can be also injected.
+    //[BeforeTestRun]
+    //public static void BeforeTestRunInjection(ITestRunnerManager testRunnerManager, ITestRunner testRunner)
+    //{
+    //    //All parameters are resolved from the test thread container automatically.
+    //    //Since the global container is the base container of the test thread container, globally registered services can be also injected.
 
-        //ITestRunManager from global container
-        var location = testRunnerManager.TestAssembly.Location;
+    //    //ITestRunManager from global container
+    //    var location = testRunnerManager.TestAssembly.Location;
 
-        //ITestRunner from test thread container
-        var threadId = testRunner.ThreadId;
+    //    //ITestRunner from test thread container
+    //    //var threadId = testRunner.ThreadId;
 
-        Service.Instance.ValueRetrievers.Register(new NullValueRetriever("<null>"));
-        Service.Instance.ValueComparers.Register(new NullValueComparer("<null>"));
-    }
+    //    Service.Instance.ValueRetrievers.Register(new NullValueRetriever("<null>"));
+    //    Service.Instance.ValueComparers.Register(new NullValueComparer("<null>"));
+    //}
 }

@@ -1,6 +1,6 @@
-﻿using BoDi;
+﻿using Reqnroll;
+using Reqnroll.BoDi;
 using System.Transactions;
-using TechTalk.SpecFlow.Infrastructure;
 
 namespace MeuPonto.Support;
 
@@ -17,7 +17,7 @@ public class SeedHook
     [BeforeScenario(Order = 100)]
     public void SetupTestUsers(
         ScenarioContext scenario,
-        ISpecFlowOutputHelper specFlowOutputHelper,
+        IReqnrollOutputHelper reqnollOutputHelper,
         CadastroEmpregadoresContext cadastroEmpregadores,
         GestaoContratosContext gestaoContratos,
         RegistroPontosContext registroPontos,
