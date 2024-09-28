@@ -22,21 +22,6 @@ public class RelatorioModel : PageModel
     public Guid? ContratoId { get; set; }
 
     [BindProperty(SupportsGet = true)]
-    [DisplayName("Grupo Contrato")]
-    public int? ContratoGrupoId { get; set; }
-
-    [DisplayName("Grupo Contrato")]
-    public string? ContratoGrupo { get; set; }
-
-    [BindProperty(SupportsGet = true)]
-    [DisplayName("Código Contrato")]
-    public string? ContratoCodigo { get; set; }
-
-    [BindProperty(SupportsGet = true)]
-    [DisplayName("CPF Contrato")]
-    public string? ContratoCpf { get; set; }
-
-    [BindProperty(SupportsGet = true)]
     [DisplayName("Nome Contrato")]
     public string? ContratoNome { get; set; }
 
@@ -63,33 +48,50 @@ public class RelatorioModel : PageModel
             return Page();
         }
 
-        ApuracaoMensal = new ApuracaoMensalViewModel();
-
         var hoje = DateTime.Today;
+
+        if (ContratoId == null)
+        {
+            var contratoPadrao = await _db.Contratos.FirstOrDefaultAsync(x => true
+                && x.UserId == User.GetUserId());
+
+            ContratoId = contratoPadrao?.Id;
+        }
+
+        if (ContratoId != null)
+        {
+            var contrato = await _db.Contratos.FirstOrDefaultAsync(x => true
+                && x.Id == ContratoId
+                && x.UserId == User.GetUserId());
+
+            ContratoNome = contrato?.Nome;
+        }
 
         if (Competencia == null)
         {
-            Competencia = hoje;
+            var competenciaPadrao = new DateTime(hoje.Year, hoje.Month, 1);
+
+            Competencia = competenciaPadrao;
+        }
+
+        var folha = await _db.Folhas.FirstOrDefaultAsync(x => true
+            && x.ContratoId == ContratoId
+            && x.Competencia == Competencia
+            && x.UserId == User.GetUserId());
+
+        if (folha == null)
+        {
+            ApuracaoMensal = new ApuracaoMensalViewModel();
         }
         else
         {
-            var competencia = Competencia;
+            var competenciaAtual = new DateTime(hoje.Year, hoje.Month, 1);
 
-            var folha = await _db.Folhas.FirstOrDefaultAsync(x => true
-                && x.ContratoId == ContratoId
-                && x.Competencia == competencia
-                && x.UserId == User.GetUserId());
+            var competenciaFolha = folha.Competencia.Value;
 
-            if (folha != null)
-            {
-                var competenciaAtual = new DateTime(hoje.Year, hoje.Month, 1);
+            var competenciaFolhaPosterior = competenciaFolha.AddMonths(1);
 
-                var competenciaFolha = folha.Competencia.Value;
-
-                var competenciaFolhaPosterior = competenciaFolha.AddMonths(1);
-
-                ApuracaoMensal = await _db.ApurarFolha(folha, User, hoje, competenciaAtual, competenciaFolha, competenciaFolhaPosterior);
-            }
+            ApuracaoMensal = await _db.ApurarFolha(folha, User, hoje, competenciaAtual, competenciaFolha, competenciaFolhaPosterior);
         }
 
         return Page();
