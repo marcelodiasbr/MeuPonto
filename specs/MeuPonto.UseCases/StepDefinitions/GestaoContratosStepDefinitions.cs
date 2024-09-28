@@ -3,7 +3,6 @@ using MeuPonto.Drivers;
 using MeuPonto.Support;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
-using TechTalk.SpecFlow.Assist;
 using MeuPonto.Features.GestaoContratos;
 using MeuPonto.Models.Contratos;
 

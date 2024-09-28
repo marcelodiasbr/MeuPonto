@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-#if INFRA_SQLITE
 using MeuPonto.Data;
+using MeuPonto.Infrastructure;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
-#endif
 
 namespace MeuPonto;
 
@@ -27,7 +26,6 @@ public class MeuPontoWebFactory<TProgram> : WebApplicationFactory<TProgram> wher
                 .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
                     "TestScheme", options => { });
 
-#if INFRA_SQLITE
             var dbContextDescriptor = services.SingleOrDefault(d =>
                 d.ServiceType == typeof(DbContextOptions<MeuPontoDbContext>));
 
@@ -50,11 +48,11 @@ public class MeuPontoWebFactory<TProgram> : WebApplicationFactory<TProgram> wher
             services.AddDbContext<MeuPontoDbContext>((container, options) =>
             {
                 var connection = container.GetRequiredService<DbConnection>();
-                options.UseSqlite(connection);
+                options.UseSqlite(connection, b => b.MigrationsAssembly("MeuPonto.EntityFrameworkCore.Sqlite"))
+                    .UseSqliteModel();
 
                 //options.UseInMemoryDatabase("InMemoryDbForTesting");
             });
-#endif
         });
 
         builder.UseEnvironment("Development");

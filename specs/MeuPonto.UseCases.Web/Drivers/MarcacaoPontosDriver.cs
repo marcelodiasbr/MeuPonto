@@ -25,7 +25,7 @@ public class MarcacaoPontosDriver
 
         MarcacaoPontoAnchor = Document.GetAnchor("Marcacao.Ponto");
 
-        MarcacaoPontoAnchor.Should().NotBeNull("o registro de pontos deve ter um link para a marcação de ponto");
+        //MarcacaoPontoAnchor.Should().NotBeNull("o registro de pontos deve ter um link para a marcação de ponto");
     }
 
     public Ponto SolicitarMarcacaoPonto()

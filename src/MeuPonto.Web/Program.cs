@@ -122,6 +122,13 @@ public class Program
                               .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             })
+            //.AddControllersWithViews(options =>
+            //{
+            //    var policy = new AuthorizationPolicyBuilder()
+            //        .RequireAuthenticatedUser()
+            //        .Build();
+            //    options.Filters.Add(new AuthorizeFilter(policy));
+            //})
             .AddViewOptions(options =>
             {
                 options.HtmlHelperOptions.ClientValidationEnabled = false;
@@ -151,20 +158,16 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
-
-            app.UseWebAssemblyDebugging();
         }
         else
         {
-            app.UseExceptionHandler("/Error");
+            app.UseExceptionHandler("/Home/Error");
+
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
 
         app.UseHttpsRedirection();
-
-
-        app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
 
         app.UseRouting();
@@ -172,11 +175,15 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.MapRazorPages();
-        app.MapControllers();
-        //app.MapFallbackToFile("app/index.html");
+        //app.MapControllerRoute(
+        //    name: "default",
+        //    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-        DbModule.EnsureDatabaseExists(app.Services);
+        app.MapControllers();
+
+        app.MapRazorPages();
+
+        app.Services.EnsureDatabaseExists();
 
         app.Run();
     }

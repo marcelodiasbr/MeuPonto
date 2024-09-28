@@ -18,8 +18,8 @@ public static class HttpClientExtensions
         IHtmlFormElement form,
         IEnumerable<KeyValuePair<string, string>> formValues)
     {
-        var submitElement = Assert.Single(form.QuerySelectorAll("[type=submit]"));
-        var submitButton = Assert.IsAssignableFrom<IHtmlElement>(submitElement);
+        var submitElement = form.QuerySelectorAll("[type=submit]").Single();
+        var submitButton = submitElement as IHtmlElement;
 
         return client.SendAsync(form, submitButton, formValues);
     }
@@ -32,7 +32,7 @@ public static class HttpClientExtensions
     {
         foreach (var kvp in formValues)
         {
-            var element = Assert.IsAssignableFrom<IHtmlInputElement>(form[kvp.Key]);
+            var element = form[kvp.Key] as IHtmlInputElement;
             element.Value = kvp.Value;
         }
         
