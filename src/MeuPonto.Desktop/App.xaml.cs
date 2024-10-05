@@ -1,11 +1,8 @@
 ﻿using MeuPonto.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
-using System.Threading;
 using System.Windows;
 
 namespace MeuPonto;

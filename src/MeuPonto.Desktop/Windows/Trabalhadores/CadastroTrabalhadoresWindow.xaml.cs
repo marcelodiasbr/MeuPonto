@@ -2,14 +2,13 @@
 using MeuPonto.Models.Trabalhadores;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace MeuPonto.Pages.Trabalhadores;
+namespace MeuPonto.Windows.Trabalhadores;
 
 public partial class CadastroTrabalhadoresWindow : Window
 {

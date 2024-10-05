@@ -100,18 +100,18 @@
                 <Separator />
                 <MenuItem Header="Sair" />
             </MenuItem>
+            <MenuItem Header="Folhas">
+                <MenuItem
+                    x:Name="gestaoFolhasMenuItem"
+                    Click="GestaoFolhasMenuItem_Click"
+                    Header="Gestão de Folhas" />
+            </MenuItem>
             <MenuItem Header="Pontos">
                 <MenuItem
                     x:Name="registroPontosMenuItem"
                     Click="RegistroPontosMenuItem_Click"
                     Header="Registro de Pontos" />
                 <Separator />
-                <MenuItem Header="Folhas">
-                    <MenuItem
-                        x:Name="gestaoFolhasMenuItem"
-                        Click="GestaoFolhasMenuItem_Click"
-                        Header="Gestão de Folhas" />
-                </MenuItem>
                 <MenuItem Header="Comprovantes">
                     <MenuItem
                         x:Name="backupComprovantesMenuItem"
@@ -128,16 +128,17 @@
                     AutomationProperties.AutomationId="gestaoContratosMenuItem"
                     Click="GestaoContratosMenuItem_Click"
                     Header="Gestão de Contratos" />
-            </MenuItem>
-            <MenuItem
-                x:Name="empregadoresMenuItem"
-                AutomationProperties.AutomationId="empregadoresMenuItem"
-                Header="Empregadores">
+                <Separator />
                 <MenuItem
-                    x:Name="cadastroEmpregadoresMenuItem"
-                    AutomationProperties.AutomationId="cadastroEmpregadoresMenuItem"
-                    Click="CadastroEmpregadoresMenuItem_Click"
-                    Header="Cadastro de Empregadores" />
+                    x:Name="empregadoresMenuItem"
+                    AutomationProperties.AutomationId="empregadoresMenuItem"
+                    Header="Empregadores">
+                    <MenuItem
+                        x:Name="cadastroEmpregadoresMenuItem"
+                        AutomationProperties.AutomationId="cadastroEmpregadoresMenuItem"
+                        Click="CadastroEmpregadoresMenuItem_Click"
+                        Header="Cadastro de Empregadores" />
+                </MenuItem>
             </MenuItem>
             <MenuItem
                 x:Name="trabalhadoresMenuItem"
