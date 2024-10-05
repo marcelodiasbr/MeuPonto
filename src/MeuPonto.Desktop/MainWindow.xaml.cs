@@ -1,11 +1,8 @@
-﻿using MeuPonto.Pages.Empregadores;
-using MeuPonto.Pages.Contratos;
-using MeuPonto.Pages.Pontos;
-using MeuPonto.Pages.Pontos.Comprovantes;
-using MeuPonto.Pages.Pontos.Folhas;
-using MeuPonto.Pages.Trabalhadores;
+﻿using MeuPonto.Windows.Contratos;
+using MeuPonto.Windows.Folhas;
+using MeuPonto.Windows.Pontos;
+using MeuPonto.Windows.Trabalhadores;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Windows;
 
 namespace MeuPonto;

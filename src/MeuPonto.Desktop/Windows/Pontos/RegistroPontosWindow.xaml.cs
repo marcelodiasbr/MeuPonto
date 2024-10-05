@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using MeuPonto.Models.Pontos;
 
-namespace MeuPonto.Pages.Pontos;
+namespace MeuPonto.Windows.Pontos;
 
 public partial class RegistroPontosWindow : Window
 {

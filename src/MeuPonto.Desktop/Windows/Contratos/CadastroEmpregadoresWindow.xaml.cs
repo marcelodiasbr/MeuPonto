@@ -1,7 +1,6 @@
 ﻿using MeuPonto.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
@@ -9,7 +8,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using MeuPonto.Models.Contratos;
 
-namespace MeuPonto.Pages.Empregadores;
+namespace MeuPonto.Windows.Contratos;
 
 public partial class CadastroEmpregadoresWindow : Window
 {
