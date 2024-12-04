@@ -23,11 +23,4 @@ public static class CadastroEmpregadoresFacade
         empregador.UserId = transaction.UserId;
         empregador.CreationDate = transaction.DateTime;
     }
-
-    public static void FeitoCom(this Contrato contrato, Empregador empregador)
-    {
-        contrato.Empregador = empregador;
-
-        contrato.EmpregadorId = empregador?.Id;
-    }
 }

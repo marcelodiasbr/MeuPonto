@@ -21,4 +21,11 @@ public class Comprovante : GlobalTableEntity
     public TipoImagemEnum? TipoImagemId { get; set; }
 
     public string? UserId { get; set; }
+
+    public void ComprovaPonto(Ponto ponto)
+    {
+        Ponto = ponto;
+
+        PontoId = ponto.Id;
+    }
 }

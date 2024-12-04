@@ -19,20 +19,6 @@ public static class GestaoContratosFacade
         return contrato;
     }
 
-    public static void RecontextualizaContrato(this Contrato contrato, TransactionContext transaction, Guid? id = null)
-    {
-        contrato.Id = contrato.Id ?? id ?? Guid.NewGuid();
-        contrato.UserId = transaction.UserId;
-        contrato.CreationDate = transaction.DateTime;
-    }
-
-    public static void FeitoCom(this Contrato contrato, Empregador empregador)
-    {
-        contrato.Empregador = empregador;
-
-        contrato.EmpregadorId = empregador?.Id;
-    }
-
     public static Contrato AbrirContrato(this Contrato contrato, Empregador empregador)
     {
         contrato.Empregador = empregador;
@@ -49,5 +35,12 @@ public static class GestaoContratosFacade
         contrato.EmpregadorId = empregador?.Id;
 
         return contrato;
+    }
+
+    public static void RecontextualizaContrato(this Contrato contrato, TransactionContext transaction, Guid? id = null)
+    {
+        contrato.Id = contrato.Id ?? id ?? Guid.NewGuid();
+        contrato.UserId = transaction.UserId;
+        contrato.CreationDate = transaction.DateTime;
     }
 }

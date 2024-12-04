@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using Microsoft.EntityFrameworkCore;
+using MeuPonto.Models.Pontos;
 
 namespace MeuPonto.Models.Contratos;
 
@@ -30,6 +30,20 @@ public class Contrato : GlobalTableEntity
     public Contrato()
     {
         JornadaTrabalhoSemanalPrevista = new JornadaTrabalhoSemanal();
+    }
+
+    public void QualificaPonto(Ponto ponto)
+    {
+        ponto.Contrato = this;
+
+        ponto.ContratoId = this.Id;
+    }
+
+    public void FeitoCom(Empregador empregador)
+    {
+        Empregador = empregador;
+
+        EmpregadorId = empregador?.Id;
     }
 
     public override string ToString()

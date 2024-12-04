@@ -43,4 +43,21 @@ public class Ponto : GlobalTableEntity
     {
         Comprovantes = new List<Comprovante>();
     }
+
+    public void DesqualificaPonto()
+    {
+        Contrato = null;
+
+        ContratoId = null;
+    }
+
+    public bool EstaQualificado()
+    {
+        return ContratoId.HasValue;
+    }
+
+    public bool EstaSemQualificacao()
+    {
+        return ContratoId == null;
+    }
 }

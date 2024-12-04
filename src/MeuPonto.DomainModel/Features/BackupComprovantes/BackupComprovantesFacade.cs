@@ -23,11 +23,4 @@ public static class BackupComprovantesFacade
         comprovante.UserId = transaction.UserId;
         comprovante.CreationDate = transaction.DateTime;
     }
-
-    public static void ComprovaPonto(this Comprovante comprovante, Ponto ponto)
-    {
-        comprovante.Ponto = ponto;
-
-        comprovante.PontoId = ponto.Id;
-    }
 }

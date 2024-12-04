@@ -1,5 +1,4 @@
 ﻿using MeuPonto.Models.Contratos;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -36,6 +35,79 @@ public class Folha : GlobalTableEntity
     public Folha()
     {
         ApuracaoMensal = new ApuracaoMensal();
+    }
+
+    public void AssociarAo(Contrato contrato)
+    {
+        Contrato = contrato;
+
+        ContratoId = contrato.Id;
+    }
+
+    public void ConfirmarCompetencia(Contrato? contrato)
+    {
+        var competenciaAtual = Competencia.Value;
+
+        var competenciaPosterior = competenciaAtual.AddMonths(1);
+
+        var dias = (competenciaPosterior - competenciaAtual).Days;
+
+        if (ApuracaoMensal.Dias.Count == 0)
+        {
+            for (int dia = 1; dia <= dias; dia++)
+            {
+                var data = competenciaAtual.AddDays(dia - 1);
+
+                var apuracaoDiaria = new ApuracaoDiaria
+                {
+                    Dia = dia,
+                    TempoPrevisto = contrato.JornadaTrabalhoSemanalPrevista.Semana.Single(x => x.DiaSemana == data.DayOfWeek).Tempo,
+                    TempoApurado = null,
+                    DiferencaTempo = null,
+                    Feriado = false,
+                    Falta = false
+                };
+
+                ApuracaoMensal.Dias.Add(apuracaoDiaria);
+            }
+
+            ApuracaoMensal.TempoTotalPeriodoAnterior = TimeSpan.Zero;
+        }
+        else
+        {
+            for (int dia = 1; dia <= dias; dia++)
+            {
+                var data = competenciaAtual.AddDays(dia - 1);
+
+                if (ApuracaoMensal.Dias.Any(x => x.Dia == dia))
+                {
+                    var apuracaoDiaria = ApuracaoMensal.Dias.First(x => x.Dia == dia);
+
+                    apuracaoDiaria.TempoPrevisto = contrato.JornadaTrabalhoSemanalPrevista.Semana.Single(x => x.DiaSemana == data.DayOfWeek).Tempo;
+                    apuracaoDiaria.TempoApurado = null;
+                    apuracaoDiaria.DiferencaTempo = null;
+                    apuracaoDiaria.DiferencaTempo = null;
+                    apuracaoDiaria.Feriado = false;
+                }
+                else
+                {
+                    var apuracaoDiaria = new ApuracaoDiaria
+                    {
+                        Dia = dia,
+                        TempoPrevisto = contrato.JornadaTrabalhoSemanalPrevista.Semana.Single(x => x.DiaSemana == data.DayOfWeek).Tempo,
+                        TempoApurado = null,
+                        DiferencaTempo = null,
+                        Feriado = false,
+                        Falta = false,
+                        Observacao = null
+                    };
+
+                    ApuracaoMensal.Dias.Add(apuracaoDiaria);
+                }
+            }
+
+            ApuracaoMensal.TempoTotalPeriodoAnterior = TimeSpan.Zero;
+        }
     }
 }
 
