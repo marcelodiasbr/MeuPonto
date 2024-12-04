@@ -46,49 +46,7 @@ public class GestaoContratosStepDefinitions
 
         if (contrato == null)
         {
-            contrato = _transaction.InciarAberturaContrato();
-
-            contrato.Nome = nome;
-            contrato.JornadaTrabalhoSemanalPrevista = new JornadaTrabalhoSemanal
-            {
-                Semana = new List<JornadaTrabalhoDiaria>(new[]{
-                        new JornadaTrabalhoDiaria
-                        {
-                            DiaSemana = DayOfWeek.Monday,
-                            Tempo = new TimeSpan(8,0,0)
-                        },
-                        new JornadaTrabalhoDiaria
-                        {
-                            DiaSemana = DayOfWeek.Tuesday,
-                            Tempo = new TimeSpan(8,0,0)
-                        },
-                        new JornadaTrabalhoDiaria
-                        {
-                            DiaSemana = DayOfWeek.Wednesday,
-                            Tempo = new TimeSpan(8,0,0)
-                        },
-                        new JornadaTrabalhoDiaria
-                        {
-                            DiaSemana = DayOfWeek.Thursday,
-                            Tempo = new TimeSpan(8,0,0)
-                        },
-                        new JornadaTrabalhoDiaria
-                        {
-                            DiaSemana = DayOfWeek.Friday,
-                            Tempo = new TimeSpan(8,0,0)
-                        },
-                        new JornadaTrabalhoDiaria
-                        {
-                            DiaSemana = DayOfWeek.Saturday,
-                            Tempo = new TimeSpan(0,0,0)
-                        },
-                        new JornadaTrabalhoDiaria
-                        {
-                            DiaSemana = DayOfWeek.Sunday,
-                            Tempo = new TimeSpan(0,0,0)
-                        }
-                    })
-            };
+            contrato = _transaction.CriarContrato(nome);
 
             _db.Contratos.Add(contrato);
             _db.SaveChanges();

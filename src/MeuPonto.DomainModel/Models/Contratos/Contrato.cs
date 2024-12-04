@@ -27,9 +27,61 @@ public class Contrato : GlobalTableEntity
 
     public string? UserId { get; set; }
 
-    public Contrato()
+    public Contrato(string nome)
     {
-        JornadaTrabalhoSemanalPrevista = new JornadaTrabalhoSemanal();
+        Nome = nome;
+        Ativo = true;
+
+        JornadaTrabalhoSemanalPrevista = new JornadaTrabalhoSemanal
+        {
+            Semana = new List<JornadaTrabalhoDiaria>(new[]{
+                        new JornadaTrabalhoDiaria
+                        {
+                            DiaSemana = DayOfWeek.Monday,
+                            Tempo = new TimeSpan(8,0,0)
+                        },
+                        new JornadaTrabalhoDiaria
+                        {
+                            DiaSemana = DayOfWeek.Tuesday,
+                            Tempo = new TimeSpan(8,0,0)
+                        },
+                        new JornadaTrabalhoDiaria
+                        {
+                            DiaSemana = DayOfWeek.Wednesday,
+                            Tempo = new TimeSpan(8,0,0)
+                        },
+                        new JornadaTrabalhoDiaria
+                        {
+                            DiaSemana = DayOfWeek.Thursday,
+                            Tempo = new TimeSpan(8,0,0)
+                        },
+                        new JornadaTrabalhoDiaria
+                        {
+                            DiaSemana = DayOfWeek.Friday,
+                            Tempo = new TimeSpan(8,0,0)
+                        },
+                        new JornadaTrabalhoDiaria
+                        {
+                            DiaSemana = DayOfWeek.Saturday,
+                            Tempo = new TimeSpan(0,0,0)
+                        },
+                        new JornadaTrabalhoDiaria
+                        {
+                            DiaSemana = DayOfWeek.Sunday,
+                            Tempo = new TimeSpan(0,0,0)
+                        }
+                    })
+        };
+    }
+
+    public void AlteraNome(string nome)
+    {
+        Nome = nome;
+    }
+
+    public void Ativar()
+    {
+        Ativo = true;
     }
 
     public void QualificaPonto(Ponto ponto)
@@ -44,6 +96,11 @@ public class Contrato : GlobalTableEntity
         Empregador = empregador;
 
         EmpregadorId = empregador?.Id;
+    }
+
+    public Contrato()
+    {
+        JornadaTrabalhoSemanalPrevista = new JornadaTrabalhoSemanal();
     }
 
     public override string ToString()

@@ -24,32 +24,13 @@ public class CriarModel : FormPageModel
     {
         var transaction = User.CreateTransaction();
 
-        AberturaContrato = GestaoContratosFacade.InciarAberturaContrato(transaction);
+        AberturaContrato = GestaoContratosFacade.CriarContrato(transaction, null);
 
         ViewData["EmpregadorId"] = new SelectList(_db.Empregadores.Where(x => x.UserId == User.GetUserId()), "Id", "Nome").AddEmptyValue();
-
-        AdicionarJornadaTrabalhoSemanalPrevista(new TimeSpan(0, 0, 0), DayOfWeek.Sunday);
-        AdicionarJornadaTrabalhoSemanalPrevista(new TimeSpan(8, 0, 0), DayOfWeek.Monday);
-        AdicionarJornadaTrabalhoSemanalPrevista(new TimeSpan(8, 0, 0), DayOfWeek.Tuesday);
-        AdicionarJornadaTrabalhoSemanalPrevista(new TimeSpan(8, 0, 0), DayOfWeek.Wednesday);
-        AdicionarJornadaTrabalhoSemanalPrevista(new TimeSpan(8, 0, 0), DayOfWeek.Thursday);
-        AdicionarJornadaTrabalhoSemanalPrevista(new TimeSpan(8, 0, 0), DayOfWeek.Friday);
-        AdicionarJornadaTrabalhoSemanalPrevista(new TimeSpan(0, 0, 0), DayOfWeek.Saturday);
 
         HoldRefererUrl();
 
         return Page();
-    }
-
-    private void AdicionarJornadaTrabalhoSemanalPrevista(TimeSpan tempo, DayOfWeek dayOfWeek)
-    {
-        var jornadaTrabalhoDiaria = new JornadaTrabalhoDiaria
-        {
-            DiaSemana = dayOfWeek,
-            Tempo = tempo
-        };
-
-        AberturaContrato.JornadaTrabalhoSemanalPrevista.Semana.Add(jornadaTrabalhoDiaria);
     }
 
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
